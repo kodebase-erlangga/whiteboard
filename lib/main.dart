@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:whiteboard/mobile_example.dart';
+import 'package:whiteboard/board.dart';
 
 // void main() => runApp(ExampleApp());
 void main() {
@@ -28,6 +28,6 @@ class ImagePainterExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MobileExample();
+    return Board();
   }
 }
