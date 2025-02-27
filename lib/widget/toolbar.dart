@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import '../widget/stroke_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Toolbar extends StatefulWidget {
   final ImagePainterController controller;
@@ -9,119 +11,112 @@ class Toolbar extends StatefulWidget {
   const Toolbar({super.key, required this.controller});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ToolbarState createState() => _ToolbarState();
 }
 
 class _ToolbarState extends State<Toolbar> {
+  late TextEditingController _textController;
+  bool isZoomActive = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isVertical = MediaQuery.of(context).size.width > 600;
+
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 5,
-            spreadRadius: 2,
-          )
-        ],
       ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
+        width: isVertical ? null : MediaQuery.of(context).size.width,
+        height: isVertical ? MediaQuery.of(context).size.height * 0.7 : 80,
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildToolbarItem(
-                context,
-                Icons.color_lens,
-                "Color",
-                null,
-                onTap: () async {
-                  final color = await showDialog<Color>(
-                    context: context,
-                    builder: (context) => ColorPickerDialog(
-                        initialColor: widget.controller.color),
-                  );
-                  if (color != null) {
-                    widget.controller.setColor(color);
-                  }
-                },
-              ),
-              _buildToolbarItem(
-                context,
-                CupertinoIcons.resize,
-                "Ukuran",
-                null,
-                onTap: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) {
-                      double selectedWidth = widget.controller.strokeWidth;
-                      return StatefulBuilder(
-                        builder: (context, setDialogState) {
-                          return AlertDialog(
-                            title: Text("Atur ukuran brush dan huruf"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Slider(
-                                  min: 1.0,
-                                  max: 40.0,
-                                  divisions: 39,
-                                  value: selectedWidth,
-                                  onChanged: (value) {
-                                    setDialogState(() {
-                                      selectedWidth = value;
-                                    });
-                                    widget.controller
-                                        .setStrokeWidth(selectedWidth);
-                                  },
-                                ),
-                                Text(
-                                    "Width: ${selectedWidth.toStringAsFixed(1)}"),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("Close"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-              _buildToolbarItem(
-                  context, Icons.brush, "Brush", PaintMode.freeStyle),
-              _buildToolbarItem(
-                  context, Icons.line_axis, "Line", PaintMode.line),
-              _buildToolbarItem(
-                  context, Icons.line_weight_sharp, "Dash", PaintMode.dashLine),
-              _buildToolbarItem(context, Icons.rectangle_outlined, "Rectangle",
-                  PaintMode.rect),
-              _buildToolbarItem(
-                  context, Icons.circle_outlined, "Circle", PaintMode.circle),
-              _buildToolbarItem(
-                  context, Icons.text_fields, "Text", PaintMode.text),
-              _buildToolbarItem(
-                  context, Icons.arrow_back_outlined, "Arrow", PaintMode.arrow),
-            ],
-          ),
+          scrollDirection: isVertical ? Axis.vertical : Axis.horizontal,
+          child: isVertical
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _buildToolbarItems(),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _buildToolbarItems(),
+                ),
         ),
       ),
     );
   }
 
-  Widget _buildToolbarItem(
-      BuildContext context, IconData icon, String label, PaintMode? mode,
+  List<Widget> _buildToolbarItems() {
+    return [
+      _buildToolbarItem(
+        Icons.color_lens,
+        "Color",
+        null,
+        onTap: () async {
+          final color = await showDialog<Color>(
+            context: context,
+            builder: (context) =>
+                ColorPickerDialog(initialColor: widget.controller.color),
+          );
+          if (color != null) {
+            widget.controller.setColor(color);
+          }
+        },
+      ),
+      _buildToolbarItem(
+          isZoomActive ? Icons.zoom_out_map : Icons.zoom_in_map,
+          isZoomActive ? "Zoom Out" : "Zoom In",
+          PaintMode.none, onTap: () {
+        setState(() {
+          isZoomActive = !isZoomActive;
+        });
+      }),
+      _buildToolbarItem(
+        CupertinoIcons.resize,
+        "Ukuran",
+        null,
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                StrokeWidthDialog(controller: widget.controller),
+          );
+        },
+      ),
+      _buildToolbarItem(Icons.brush, "Brush", PaintMode.freeStyle),
+      _buildToolbarItem(Icons.line_axis, "Line", PaintMode.line),
+      _buildToolbarItem(Icons.line_weight_sharp, "Dash", PaintMode.dashLine),
+      _buildToolbarItem(Icons.rectangle_outlined, "Rectangle", PaintMode.rect),
+      _buildToolbarItem(Icons.circle_outlined, "Circle", PaintMode.circle),
+      _buildToolbarItem(
+        Icons.text_fields,
+        "Text",
+        PaintMode.text,
+        onTap: () => _openTextDialog(),
+      ),
+      _buildToolbarItem(Icons.arrow_back_outlined, "Arrow", PaintMode.arrow),
+    ];
+  }
+
+  Widget _buildToolbarItem(IconData icon, String label, PaintMode? mode,
       {VoidCallback? onTap}) {
     bool isSelected = widget.controller.mode == mode;
+    final iconSize = MediaQuery.of(context).size.width * 0.06;
+    final fontSize = MediaQuery.of(context).size.width * 0.03;
 
     return GestureDetector(
       onTap: () {
@@ -145,18 +140,60 @@ class _ToolbarState extends State<Toolbar> {
             padding: const EdgeInsets.all(8),
             child: Icon(
               icon,
-              size: 28,
+              size: iconSize.clamp(24, 36),
               color: isSelected ? Colors.amber[800] : Colors.black87,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(fontSize: 12, color: Colors.black87),
+            style: TextStyle(fontSize: fontSize.clamp(10, 14)),
           ),
         ],
       ),
     );
+  }
+
+  void _openTextDialog() {
+    widget.controller.setMode(PaintMode.text);
+    // final fontSize = 6 * widget.controller.strokeWidth;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Masukkan Teks"),
+        content: TextField(
+          controller: _textController,
+          decoration: const InputDecoration(hintText: "Masukkan teks di sini"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                _addPaintHistory(
+                  PaintInfo(
+                    mode: PaintMode.text,
+                    text: _textController.text,
+                    offsets: [],
+                    color: widget.controller.color,
+                    strokeWidth: widget.controller.scaledStrokeWidth,
+                  ),
+                );
+                _textController.clear();
+              }
+              Navigator.of(context).pop();
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addPaintHistory(PaintInfo info) {
+    if (info.mode != PaintMode.none) {
+      widget.controller.addPaintInfo(info);
+    }
   }
 }
 
