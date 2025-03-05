@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../widget/stroke_controller.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Toolbar extends StatefulWidget {
   final ImagePainterController controller;
+  final VoidCallback onPickImage;
 
-  const Toolbar({super.key, required this.controller});
+  const Toolbar({
+    super.key,
+    required this.controller,
+    required this.onPickImage,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -63,6 +67,12 @@ class _ToolbarState extends State<Toolbar> {
   List<Widget> _buildToolbarItems() {
     return [
       _buildToolbarItem(
+        Icons.image,
+        "Gambar",
+        null,
+        onTap: widget.onPickImage,
+      ),
+      _buildToolbarItem(
         Icons.color_lens,
         "Color",
         null,
@@ -77,10 +87,8 @@ class _ToolbarState extends State<Toolbar> {
           }
         },
       ),
-      _buildToolbarItem(
-          isZoomActive ? Icons.zoom_out_map : Icons.zoom_in_map,
-          isZoomActive ? "Zoom Out" : "Zoom In",
-          PaintMode.none, onTap: () {
+      _buildToolbarItem(isZoomActive ? Icons.zoom_out_map : Icons.zoom_in_map,
+          isZoomActive ? "Zoom Out" : "Zoom In", PaintMode.none, onTap: () {
         setState(() {
           isZoomActive = !isZoomActive;
         });
@@ -125,7 +133,8 @@ class _ToolbarState extends State<Toolbar> {
             widget.controller.setMode(mode);
           }
         });
-        if (onTap != null) onTap();
+        // if (onTap != null) onTap(); 
+        onTap?.call();
       },
       child: Column(
         children: [
@@ -156,8 +165,6 @@ class _ToolbarState extends State<Toolbar> {
 
   void _openTextDialog() {
     widget.controller.setMode(PaintMode.text);
-    // final fontSize = 6 * widget.controller.strokeWidth;
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

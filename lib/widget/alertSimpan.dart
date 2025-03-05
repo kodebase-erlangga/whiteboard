@@ -33,7 +33,7 @@ class AlertSimpan extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Mantap!',
+                  'Mantap! Ayo Langsung Bagikan Dengan Orang Lain!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
@@ -46,7 +46,7 @@ class AlertSimpan extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Ayo Buka Dan Bagikan Dengan Orang Lain!',
+                  'Gambar Ini Tidak Tersimpan Digaleri',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
