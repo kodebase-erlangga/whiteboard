@@ -46,150 +46,150 @@
 //     super.dispose();
 //   }
 
-  // Widget _buildImageControls() {
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-  //     decoration: BoxDecoration(
-  //       color: Colors.grey[200],
-  //       borderRadius: BorderRadius.circular(12),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.1),
-  //           blurRadius: 4,
-  //           offset: const Offset(0, 2),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         if (_controller != null)
-  //           AnimatedBuilder(
-  //             animation: _controller!,
-  //             builder: (_, __) {
-  //               return PopupMenuButton(
-  //                 padding: const EdgeInsets.symmetric(vertical: 10),
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(20),
-  //                 ),
-  //                 tooltip: 'Pilih Warna',
-  //                 icon: Container(
-  //                   padding: const EdgeInsets.all(2.0),
-  //                   height: 32,
-  //                   width: 32,
-  //                   decoration: BoxDecoration(
-  //                     shape: BoxShape.circle,
-  //                     border: Border.all(color: Colors.grey.shade500),
-  //                     color: _controller!.color,
-  //                   ),
-  //                 ),
-  //                 itemBuilder: (_) => [
-  //                   PopupMenuItem(
-  //                     enabled: false,
-  //                     child: Center(
-  //                       child: Wrap(
-  //                         alignment: WrapAlignment.center,
-  //                         spacing: 12,
-  //                         runSpacing: 12,
-  //                         children: editorColors.map((color) {
-  //                           return GestureDetector(
-  //                             onTap: () {
-  //                               _controller!.setColor(color);
-  //                               Navigator.pop(context);
-  //                             },
-  //                             child: Container(
-  //                               width: 40,
-  //                               height: 40,
-  //                               decoration: BoxDecoration(
-  //                                 color: color,
-  //                                 shape: BoxShape.circle,
-  //                                 border: Border.all(
-  //                                   color: color,
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           );
-  //                         }).toList(),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               );
-  //             },
-  //           ),
-  //         Row(
-  //           children: [
-  //             OutlinedButton.icon(
-  //               onPressed: _controller?.undo,
-  //               style: OutlinedButton.styleFrom(
-  //                 padding:
-  //                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(12),
-  //                 ),
-  //                 foregroundColor: Colors.black,
-  //                 side: BorderSide(color: Colors.black),
-  //               ),
-  //               icon: const Icon(Icons.undo),
-  //               label: const Text(
-  //                 "Undo",
-  //                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //               ),
-  //             ),
-  //             const SizedBox(width: 10),
-  //             OutlinedButton.icon(
-  //               onPressed: () {
-  //                 AlertHapus.show(context, () {
-  //                   if (_controller != null) {
-  //                     _controller!.clear();
-  //                   }
-  //                 });
-  //               },
-  //               style: OutlinedButton.styleFrom(
-  //                 padding:
-  //                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(12),
-  //                 ),
-  //                 foregroundColor: Colors.black,
-  //                 side: BorderSide(color: Colors.black),
-  //               ),
-  //               icon: const Icon(Icons.delete),
-  //               label: const Text(
-  //                 "Hapus Semua",
-  //                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //               ),
-  //             ),
-  //             const SizedBox(width: 10),
-  //             OutlinedButton.icon(
-  //               onPressed: () async {
-  //                 setState(() {
-  //                   _isToolbarVisible = false;
-  //                   _showImageControls = false;
-  //                 });
-  //                 await _simpanGambar();
-  //               },
-  //               style: OutlinedButton.styleFrom(
-  //                 padding:
-  //                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(12),
-  //                 ),
-  //                 foregroundColor: Colors.black,
-  //                 side: BorderSide(color: Colors.black),
-  //               ),
-  //               icon: const Icon(Icons.save),
-  //               label: const Text(
-  //                 "Simpan",
-  //                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+//   Widget _buildImageControls() {
+//     return Container(
+//       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+//       decoration: BoxDecoration(
+//         color: Colors.grey[200],
+//         borderRadius: BorderRadius.circular(12),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.1),
+//             blurRadius: 4,
+//             offset: const Offset(0, 2),
+//           ),
+//         ],
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           if (_controller != null)
+//             AnimatedBuilder(
+//               animation: _controller!,
+//               builder: (_, __) {
+//                 return PopupMenuButton(
+//                   padding: const EdgeInsets.symmetric(vertical: 10),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(20),
+//                   ),
+//                   tooltip: 'Pilih Warna',
+//                   icon: Container(
+//                     padding: const EdgeInsets.all(2.0),
+//                     height: 32,
+//                     width: 32,
+//                     decoration: BoxDecoration(
+//                       shape: BoxShape.circle,
+//                       border: Border.all(color: Colors.grey.shade500),
+//                       color: _controller!.color,
+//                     ),
+//                   ),
+//                   itemBuilder: (_) => [
+//                     PopupMenuItem(
+//                       enabled: false,
+//                       child: Center(
+//                         child: Wrap(
+//                           alignment: WrapAlignment.center,
+//                           spacing: 12,
+//                           runSpacing: 12,
+//                           children: editorColors.map((color) {
+//                             return GestureDetector(
+//                               onTap: () {
+//                                 _controller!.setColor(color);
+//                                 Navigator.pop(context);
+//                               },
+//                               child: Container(
+//                                 width: 40,
+//                                 height: 40,
+//                                 decoration: BoxDecoration(
+//                                   color: color,
+//                                   shape: BoxShape.circle,
+//                                   border: Border.all(
+//                                     color: color,
+//                                   ),
+//                                 ),
+//                               ),
+//                             );
+//                           }).toList(),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               },
+//             ),
+//           Row(
+//             children: [
+//               OutlinedButton.icon(
+//                 onPressed: _controller?.undo,
+//                 style: OutlinedButton.styleFrom(
+//                   padding:
+//                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12),
+//                   ),
+//                   foregroundColor: Colors.black,
+//                   side: BorderSide(color: Colors.black),
+//                 ),
+//                 icon: const Icon(Icons.undo),
+//                 label: const Text(
+//                   "Undo",
+//                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+//                 ),
+//               ),
+//               const SizedBox(width: 10),
+//               OutlinedButton.icon(
+//                 onPressed: () {
+//                   AlertHapus.show(context, () {
+//                     if (_controller != null) {
+//                       _controller!.clear();
+//                     }
+//                   });
+//                 },
+//                 style: OutlinedButton.styleFrom(
+//                   padding:
+//                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12),
+//                   ),
+//                   foregroundColor: Colors.black,
+//                   side: BorderSide(color: Colors.black),
+//                 ),
+//                 icon: const Icon(Icons.delete),
+//                 label: const Text(
+//                   "Hapus Semua",
+//                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+//                 ),
+//               ),
+//               const SizedBox(width: 10),
+//               OutlinedButton.icon(
+//                 onPressed: () async {
+//                   setState(() {
+//                     _isToolbarVisible = false;
+//                     _showImageControls = false;
+//                   });
+//                   await _simpanGambar();
+//                 },
+//                 style: OutlinedButton.styleFrom(
+//                   padding:
+//                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12),
+//                   ),
+//                   foregroundColor: Colors.black,
+//                   side: BorderSide(color: Colors.black),
+//                 ),
+//                 icon: const Icon(Icons.save),
+//                 label: const Text(
+//                   "Simpan",
+//                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
 //   void _addImageLayer(File image) {
 //     setState(() {

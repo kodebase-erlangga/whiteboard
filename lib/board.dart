@@ -74,8 +74,7 @@ class _BoardState extends State<Board> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        addImageLayer(
-            imageLayers, File(pickedFile.path));
+        addImageLayer(imageLayers, File(pickedFile.path));
       });
     }
   }
@@ -99,25 +98,54 @@ class _BoardState extends State<Board> {
                   )
                 : RepaintBoundary(
                     key: _painterKey,
-                    child: Stack(
-                      children: [
-                        buildBackgroundPainter(
-                          selectedImage: selectedImage,
-                          controller: _controller,
-                          onPickImage: _pickImage,
-                        ),
-                        ...imageLayers.map(
-                          (layer) => buildImageLayer(
-                            layer: layer,
-                            onUpdatePosition: (layer, delta) => setState(() {
-                              updateLayerPosition(layer, delta);
-                            }),
-                            onScale: (layer, scale) => setState(() {
-                              scaleLayer(layer, scale);
-                            }),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          for (var layer in imageLayers) {
+                            layer.showDeleteButton = false;
+                            layer.showCheckButton = false;
+                            layer.showRotateButton = false;
+                          }
+                        });
+                      },
+                      child: Stack(
+                        children: [
+                          buildBackgroundPainter(
+                            selectedImage: selectedImage,
+                            controller: _controller,
+                            onPickImage: _pickImage,
                           ),
-                        ),
-                      ],
+                          ...imageLayers.map(
+                            (layer) => buildImageLayer(
+                              layer: layer,
+                              onUpdatePosition: (layer, delta) => setState(() {
+                                layer.offset += delta;
+                              }),
+                              onScale: (layer, scale) => setState(() {
+                                layer.scale = scale.clamp(0.1, 5.0);
+                              }),
+                              onDelete: (layer) => setState(() {
+                                imageLayers.remove(layer);
+                              }),
+                              onToggleHide: (layer) => setState(() {
+                                layer.showDeleteButton =
+                                    !layer.showDeleteButton;
+                                layer.showCheckButton = !layer.showCheckButton;
+                                layer.showRotateButton =
+                                    !layer.showRotateButton;
+                              }),
+                              onRotate: (layer, degrees) => setState(() {
+                                layer.rotation += degrees *
+                                    (3.1416 / 180);
+                              }),
+                              onResize: (layer, delta) => setState(() {
+                                layer.scale =
+                                    (layer.scale + delta).clamp(0.1, 5.0);
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
           ),

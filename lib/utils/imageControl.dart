@@ -13,7 +13,7 @@ Widget buildImageControls({
   required Function() onSave,
   required bool isToolbarVisible,
   required bool showImageControls,
-  required Function(bool, bool) onToggleVisibility,
+  required Function(bool, bool) onToggleVisibility,z
 }) {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
