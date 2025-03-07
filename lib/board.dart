@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,10 +7,9 @@ import 'package:whiteboard/utils/addImageLayer.dart';
 import 'package:whiteboard/utils/classImageLayer.dart';
 import 'package:whiteboard/utils/listColor.dart';
 import 'package:whiteboard/utils/imageControl.dart';
-import 'package:whiteboard/utils/scaleLayer.dart';
 import 'package:whiteboard/utils/simpanGambar.dart';
-import 'package:whiteboard/utils/updateLayerPosition.dart';
 import 'package:whiteboard/widget/alertHapus.dart';
+import 'package:whiteboard/widget/alertKeluar.dart';
 import 'package:whiteboard/widget/imageLayer.dart';
 import 'package:whiteboard/widget/toolbar.dart';
 import '../widget/image_selection.dart';
@@ -25,12 +25,11 @@ class Board extends StatefulWidget {
 class _BoardState extends State<Board> {
   bool _showImageControls = true;
   bool _isToolbarVisible = true;
-  final GlobalKey _painterKey = GlobalKey();
+  GlobalKey? _painterKey;
   String? selectedImage;
   ImagePainterController? _controller;
   List<ImageLayer> imageLayers = [];
   ImageLayer? selectedLayer;
-
   final List<Color> editorColors = editorColorsList;
 
   @override
@@ -56,7 +55,7 @@ class _BoardState extends State<Board> {
           _isToolbarVisible = false;
           _showImageControls = false;
         });
-        await simpanGambar(_painterKey, context);
+        await simpanGambar(_painterKey!, context);
       },
       isToolbarVisible: _isToolbarVisible,
       showImageControls: _showImageControls,
@@ -94,6 +93,7 @@ class _BoardState extends State<Board> {
                       selectedImage = image;
                       _controller?.dispose();
                       _controller = ImagePainterController();
+                      _painterKey = GlobalKey();
                     }),
                   )
                 : RepaintBoundary(
@@ -135,8 +135,7 @@ class _BoardState extends State<Board> {
                                     !layer.showRotateButton;
                               }),
                               onRotate: (layer, degrees) => setState(() {
-                                layer.rotation += degrees *
-                                    (3.1416 / 180);
+                                layer.rotation += degrees * (3.1416 / 180);
                               }),
                               onResize: (layer, delta) => setState(() {
                                 layer.scale =
@@ -156,12 +155,20 @@ class _BoardState extends State<Board> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
+                  TextButton.icon(
                     icon: Icon(
                       _isToolbarVisible && _showImageControls
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Colors.black,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      _isToolbarVisible && _showImageControls ? "Hide" : "Show",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
                     ),
                     onPressed: () => setState(() {
                       _isToolbarVisible = !_isToolbarVisible;
@@ -180,14 +187,19 @@ class _BoardState extends State<Board> {
       ),
       floatingActionButton: selectedImage != null
           ? FloatingActionButton.extended(
-              onPressed: () => setState(() {
-                selectedImage = null;
-                _controller?.dispose();
-                _controller = null;
-                imageLayers.clear();
-              }),
+              onPressed: () {
+                AlertKeluar.show(context, () {
+                  setState(() {
+                    selectedImage = null;
+                    _controller?.dispose();
+                    _controller = null;
+                    imageLayers.clear();
+                    _painterKey = null;
+                  });
+                });
+              },
               label: const Text("Menu Utama"),
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.home),
             )
           : null,
     );

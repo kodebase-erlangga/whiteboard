@@ -971,28 +971,28 @@
   //             );
   //           },
   //         ),
-  //         AnimatedBuilder(
-  //           animation: _controller,
-  //           builder: (_, __) {
-  //             return _controller.canFill()
-  //                 ? Row(
-  //                     children: [
-  //                       Checkbox.adaptive(
-  //                         value: _controller.shouldFill,
-  //                         activeColor: Colors.blue,
-  //                         onChanged: (val) {
-  //                           _controller.update(fill: val);
-  //                         },
-  //                       ),
-  //                       Text(
-  //                         textDelegate.fill,
-  //                         style: Theme.of(context).textTheme.bodyMedium,
-  //                       ),
-  //                     ],
-  //                   )
-  //                 : const SizedBox();
-  //           },
-  //         ),
+          // AnimatedBuilder(
+          //   animation: _controller,
+          //   builder: (_, __) {
+          //     return _controller.canFill()
+          //         ? Row(
+          //             children: [
+          //               Checkbox.adaptive(
+          //                 value: _controller.shouldFill,
+          //                 activeColor: Colors.blue,
+          //                 onChanged: (val) {
+          //                   _controller.update(fill: val);
+          //                 },
+          //               ),
+          //               Text(
+          //                 textDelegate.fill,
+          //                 style: Theme.of(context).textTheme.bodyMedium,
+          //               ),
+          //             ],
+          //           )
+          //         : const SizedBox();
+          //   },
+          // ),
   //         const Spacer(),
   //         IconButton(
   //           tooltip: textDelegate.undo,

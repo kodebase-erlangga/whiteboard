@@ -168,10 +168,10 @@ class _ToolbarState extends State<Toolbar> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Masukkan Teks"),
+        // title: const Text("Masukkan Teks"),
         content: TextField(
           controller: _textController,
-          decoration: const InputDecoration(hintText: "Masukkan teks di sini"),
+          decoration: const InputDecoration(hintText: "Masukan teks disini"),
         ),
         actions: [
           TextButton(
@@ -190,7 +190,7 @@ class _ToolbarState extends State<Toolbar> {
               }
               Navigator.of(context).pop();
             },
-            child: const Text("OK"),
+            child: const Text("Selesai"),
           ),
         ],
       ),

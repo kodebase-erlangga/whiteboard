@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 
 class AlertSimpan extends StatelessWidget {
-  final String filePath; // ✅ Tambahkan filePath sebagai parameter
+  final String filePath;
 
   const AlertSimpan({super.key, required this.filePath});
 
@@ -13,7 +12,7 @@ class AlertSimpan extends StatelessWidget {
     return Container();
   }
 
-  static void show(BuildContext context, String filePath) { // ✅ Terima fullPath
+  static void show(BuildContext context, String filePath) {
     showDialog(
       context: context,
       builder: (context) {
@@ -46,21 +45,30 @@ class AlertSimpan extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Gambar Ini Tidak Tersimpan Digaleri',
+                  'Peringatan : Gambar Ini Tidak Tersimpan Digaleri',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
-                      color: Color(0xffA6A6A6),
+                      color: Color.fromARGB(255, 255, 0, 0),
                       letterSpacing: .5,
                       fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
                 TextButton(
                   onPressed: () => OpenFile.open(filePath),
-                  child:
-                      Text("Open", style: TextStyle(color: Colors.blue[200])),
+                  child: Text(
+                    "Open",
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 43, 0, 255),
+                        letterSpacing: .5,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),
